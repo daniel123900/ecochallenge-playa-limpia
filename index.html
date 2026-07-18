@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoChallenge Playa Limpia</title>
+    <style>
+        /* Deslizamiento suave */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Paleta de colores: Océano y Naturaleza */
+        :root {
+            --azul-oscuro: #006064;
+            --azul-mar: #00838f;
+            --azul-claro: #e0f7fa;
+            --arena: #fff8e1;
+            --naranja-coral: #ff7043;
+            --gris-oscuro: #37474f;
+            --verde-ecologico: #2e7d32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--azul-claro);
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+        }
+
+        /* 1. LOGO / CABECERA */
+        header {
+            background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-mar));
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+            letter-spacing: 1px;
+        }
+
+        header h3 {
+            font-weight: 300;
+            margin: 10px 0 20px 0;
+            color: #b2ebf2;
+            font-size: 1.5rem;
+        }
+
+        /* MENÚ DE NAVEGACIÓN (Fijo arriba al bajar) */
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background-color: var(--azul-oscuro);
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 10px 18px;
+            border-radius: 25px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        nav a:hover {
+            background-color: var(--azul-mar);
+            transform: scale(1.05);
+        }
+
+        /* Contenedor principal de secciones */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Estilo base de secciones */
+        section, .seccion-tarjeta {
+            background: white;
+            padding: 45px 35px;
+            border-radius: 15px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: var(--azul-oscuro);
+            font-size: 2.2rem;
+            margin-top: 0;
+            border-bottom: 3px solid var(--azul-claro);
+            padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Botón común */
+        .btn {
+            display: inline-block;
+            background-color: var(--naranja-coral);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 112, 67, 0.4);
+            transition: transform 0.2s, background 0.3s;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #f4511e;
+            transform: translateY(-2px);
+        }
+
+        /* Cuadrículas (Grids) para las tarjetas */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .card {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid var(--azul-mar);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .card h3 {
+            color: var(--azul-oscuro);
+            margin-top: 0;
+            font-size: 1.25rem;
+        }
+
+        /* Estilos de la sección: ¿Cómo puedes ayudar? */
+        .ayudar-card {
+            border-left-color: var(--verde-ecologico);
+        }
+
+        /* Estilos de la sección: LEYES (Acordeón Interactivo) */
+        .legal-card {
+            background: #f9f9f9;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .legal-titulo {
+            width: 100%;
+            background: #f1f8f9;
+            color: var(--azul-oscuro);
+            border: none;
+            padding: 18px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .legal-titulo:hover {
+            background: #e0f2f1;
+        }
+
+        .legal-titulo::after {
+            content: '▼';
+            font-size: 0.8rem;
+            color: var(--azul-mar);
+            transition: transform 0.3s;
+        }
+
+        /* Clase activa para girar la flecha */
+        .legal-titulo.active::after {
+            transform: rotate(180deg);
+        }
+
+        .legal-texto {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: none; /* Oculto por defecto, se maneja con JS */
+        }
+
+        .legal-btn {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--azul-mar);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .legal-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos de la sección: LIMPIEZA */
+        .pasos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .paso {
+            background: #f1f8f9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 4px solid var(--azul-mar);
+        }
+
+        .paso h3 {
+            margin-top: 0;
+            color: var(--azul-oscuro);
+        }
+
+        .mensaje-participacion {
+            background-color: var(--arena);
+            border: 2px dashed #ffe082;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Estilos de la sección: ÚNETE (Formulario) */
+        .unete form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 25px auto 0 auto;
+        }
+
+        .unete input, .unete textarea {
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .unete textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .unete button {
+            background-color: var(--verde-ecologico);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .unete button:hover {
+            background-color: #1b5e20;
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: var(--azul-oscuro);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+   <!-- 1. LOGO / INICIO / CABECERA -->
+    <header id="inicio">
+        <!-- Contenedor del Logo con Imagen -->
+        <div style="margin-bottom: 20px;">
+            <!-- 
+              Si usas tu propia imagen de tu computadora, cambia la dirección de abajo 
+              por el nombre de tu archivo src="playa-logo.png"
+            -->
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=150&h=150&q=80" 
+                 alt="Logo Playa Limpia" 
+                 style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.2); object-fit: cover;">
+        </div>
+
+        <h1>🌊 EcoChallenge Playa Limpia</h1>
+        <h3>Cuidemos nuestras playas, protejamos nuestro futuro</h3>
+        <p style="max-width: 600px; margin: 0 auto; font-size: 1.1rem; color: #e0f7fa;">
+            Somos una iniciativa ambiental que busca reducir la contaminación marina mediante limpieza de playas, educación ambiental y participación ciudadana.
+        </p>
+        <br>
+        <a href="#unete" class="btn">Únete al cambio</a>
+    </header>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav>
+        <a href="#inicio">🏠 Inicio</a>
+        <a href="#playas">🌊 Playas (Problema)</a>
+        <a href="#informacion">📚 Información</a>
+        <a href="#leyes">⚖️ Leyes</a>
+        <a href="#limpieza">🧹 Limpieza</a>
+        <a href="#unete">🌱 Únete</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- 2. PLAYAS (LA PROBLEMÁTICA) -->
+        <section id="playas">
+            <h2>🗑️ ¿Qué está pasando en nuestras playas?</h2>
+            <p>
+                Actualmente, muchas playas enfrentan una problemática ambiental causada principalmente por la acumulación de residuos, el uso excesivo de materiales descartables y la falta de una adecuada cultura de cuidado ambiental.
+            </p>
+            <p>
+                Cada día, toneladas de residuos llegan a las zonas costeras afectando la calidad del agua, el paisaje natural y la vida de diferentes especies marinas. Lo que para algunas personas puede parecer un simple residuo abandonado, para el ecosistema representa una amenaza que puede permanecer durante muchos años.
+            </p>
+            <p>
+                Uno de los principales problemas es la contaminación por plásticos. Botellas, bolsas, envases y otros productos de un solo uso pueden llegar al océano debido al viento, las lluvias o los sistemas de drenaje. Estos materiales no desaparecen fácilmente y pueden convertirse en microplásticos que ingresan a la cadena alimenticia, afectando a animales marinos y, posteriormente, a las personas.
+            </p>
+            <p>
+                Además de la contaminación por residuos sólidos, algunas playas presentan otros problemas como la contaminación del agua, acumulación de basura en la arena, pérdida de biodiversidad y deterioro de espacios naturales que son importantes para las comunidades costeras.
+            </p>
+
+            <div class="grid-container">
+                <div class="card">
+                    <h3>🗑️ Acumulación de residuos</h3>
+                    <p>Algunas zonas costeras presentan residuos como plásticos, botellas y envolturas que afectan el paisaje y la vida marina.</p>
+                </div>
+                <div class="card">
+                    <h3>🌊 Contaminación del agua</h3>
+                    <p>Los desechos pueden llegar al océano y alterar la calidad del agua, afectando animales y personas.</p>
+                </div>
+                <div class="card">
+                    <h3>🌱 Recuperación ambiental</h3>
+                    <p>Las campañas de limpieza y educación ayudan a recuperar espacios naturales y crear conciencia.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ¿CÓMO PUEDES AYUDAR? (Inserción complementaria para la acción) -->
+        <section id="ayudar">
+            <h2>🌱 ¿Cómo puedes ayudar?</h2>
+            <p>Cada acción cuenta. Tú también puedes formar parte del cambio y contribuir al cuidado de nuestras playas.</p>
+            
+            <div class="grid-container">
+                <div class="card ayudar-card">
+                    <h3>🧹 Participa en limpiezas</h3>
+                    <p>Únete a jornadas de limpieza de playas y ayuda a retirar residuos que contaminan nuestros ecosistemas.</p>
+                </div>
+                <div class="card ayudar-card">
+                    <h3>♻️ Reduce el uso de plástico</h3>
+                    <p>Evita productos descartables y utiliza alternativas reutilizables para disminuir la contaminación.</p>
+                </div>
+                <div class="card ayudar-card">
+                    <h3>📢 Comparte información</h3>
+                    <p>Educa a otras personas sobre la importancia de proteger el océano y mantener playas limpias.</p>
+                </div>
+                <div class="card ayudar-card">
+                    <h3>🤝 Únete a EcoChallenge</h3>
+                    <p>Participa con nuestra comunidad en actividades ambientales y retos para cuidar el planeta.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. INFORMACIÓN AMBIENTAL -->
+        <section id="informacion">
+            <h2>📚 Información ambiental</h2>
+            <p>
+                Las playas son ecosistemas importantes que brindan beneficios ambientales, sociales y económicos. Sin embargo, actualmente muchas zonas costeras enfrentan problemas debido a la contaminación generada por residuos, actividades humanas y falta de educación ambiental.
+            </p>
+
+            <div class="grid-container">
+                <div class="card">
+                    <h3>🌊 Contaminación de las playas</h3>
+                    <p>La contaminación de las playas ocurre cuando residuos y sustancias dañinas llegan a las zonas costeras. Bolsas plásticas, botellas, envases descartables, restos de comida y redes de pesca pueden permanecer durante años en el ambiente.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🗑️ Principales causas</h3>
+                    <p>
+                        • Uso excesivo de plásticos descartables.<br>
+                        • Mala disposición de residuos por las personas.<br>
+                        • Actividades industriales sin adecuado control ambiental.<br>
+                        • Descarga de residuos que llegan desde ríos hacia el mar.<br>
+                        • Falta de educación y conciencia ambiental.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>🐢 Impacto en la vida marina</h3>
+                    <p>Animales como tortugas, aves y peces pueden ingerir plástico pensando que es alimento, provocando problemas internos, enfermedades o muerte. También pueden quedar atrapados en redes o envases.</p>
+                </div>
+
+                <div class="card">
+                    <h3>👥 Consecuencias sociales</h3>
+                    <p>La contaminación de playas genera riesgos directos para la salud humana, reduce gravemente el turismo y perjudica actividades económicas importantes de la costa como la pesca.</p>
+                </div>
+
+                <div class="card">
+                    <h3>♻️ Importancia del reciclaje</h3>
+                    <p>El reciclaje y la correcta separación ayudan a disminuir la basura que termina en espacios naturales. Evitar plásticos innecesarios y separar residuos genera un impacto muy positivo.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🌱 Educación ambiental</h3>
+                    <p>Fomenta que más personas entiendan la relevancia de proteger los océanos. A través de campañas y proyectos como EcoChallenge, se busca crear una cultura de responsabilidad.</p>
+                </div>
+            </div>
+
+            <div class="mensaje-participacion" style="margin-top: 30px;">
+                <h3>🌎 El cambio empieza con nuestras acciones</h3>
+                <p>
+                    Proteger las playas no depende únicamente de las autoridades. La participación de ciudadanos, organizaciones y comunidades es fundamental para reducir la contaminación y conservar los ecosistemas marinos.
+                </p>
+            </div>
+        </section>
+
+        <!-- 4. LEYES (TEMAS LEGALES) -->
+        <section id="leyes">
+            <h2>⚖️ Temas Legales Ambientales</h2>
+            <p>
+                El cuidado de nuestras playas no depende únicamente de las acciones individuales, también existe un conjunto de normas ambientales que establecen derechos, responsabilidades y medidas para proteger los ecosistemas.
+            </p>
+
+            <div class="legal-container">
+
+                <!-- Ley 1 -->
+                <div class="legal-card">
+                    <button class="legal-titulo" onclick="toggleLegal(this)">
+                        📘 Ley General del Ambiente - Ley N.º 28611
+                    </button>
+                    <div class="legal-texto">
+                        <p>
+                            Reconoce el derecho de toda persona a vivir en un ambiente saludable, equilibrado y adecuado para el desarrollo de la vida. Establece responsabilidades para ciudadanos, empresas y autoridades con la finalidad de prevenir la contaminación.
+                        </p>
+                        <a href="https://www.gob.pe/institucion/congreso-de-la-republica/normas-legales/3569-28611" target="_blank" class="legal-btn">Consultar ley oficial →</a>
+                    </div>
+                </div>
+
+                <!-- Ley 2 -->
+                <div class="legal-card">
+                    <button class="legal-titulo" onclick="toggleLegal(this)">
+                        ♻️ Decreto Legislativo N.º 1278 - Gestión de Residuos Sólidos
+                    </button>
+                    <div class="legal-texto">
+                        <p>
+                            Esta norma regula la gestión integral de los residuos sólidos en el Perú. Busca reducir la generación de basura, promover el reciclaje y asegurar un manejo adecuado para evitar que plásticos y botellas terminen en el océano.
+                        </p>
+                        <a href="https://www.gob.pe/institucion/minam/normas-legales/3610-1278" target="_blank" class="legal-btn">Consultar ley oficial →</a>
+                    </div>
+                </div>
+
+                <!-- Ley 3 -->
+                <div class="legal-card">
+                    <button class="legal-titulo" onclick="toggleLegal(this)">
+                        🗑️ D.S. N.º 014-2017-MINAM - Reglamento de residuos sólidos
+                    </button>
+                    <div class="legal-texto">
+                        <p>
+                            Establece cómo debe realizarse la gestión y manejo de residuos sólidos, incluyendo procesos de reducción, separación, recolección y disposición adecuada. Fomenta prácticas responsables y campañas ambientales.
+                        </p>
+                        <a href="https://www.gob.pe/institucion/minam/normas-legales/3695-014-2017-minam" target="_blank" class="legal-btn">Consultar reglamento →</a>
+                    </div>
+                </div>
+
+                <!-- Ley 4 -->
+                <div class="legal-card">
+                    <button class="legal-titulo" onclick="toggleLegal(this)">
+                        🌊 Ley N.º 26834 - Áreas Naturales Protegidas
+                    </button>
+                    <div class="legal-texto">
+                        <p>
+                            Tiene como objetivo proteger espacios naturales importantes del Perú y conservar la diversidad biológica. Promueve el cuidado de los ecosistemas marinos y costeros donde existe gran variedad de especies.
+                        </p>
+                        <a href="https://www.gob.pe/institucion/congreso-de-la-republica/normas-legales" target="_blank" class="legal-btn">Consultar información oficial →</a>
+                    </div>
+                </div>
+
+                <!-- Consecuencias -->
+                <div class="legal-card">
+                    <button class="legal-titulo" onclick="toggleLegal(this)">
+                        ⚠️ Consecuencias de incumplir las leyes ambientales
+                    </button>
+                    <div class="legal-texto">
+                        <h4>⚖️ Consecuencias legales</h4>
+                        <p>Multas, sanciones administrativas, medidas correctivas u obligaciones para reparar daños ecológicos graves según la normativa peruana.</p>
+                        <h4>🌊 Consecuencias para los ecosistemas</h4>
+                        <p>Acumulación de residuos, deterioro del paisaje natural y daño severo a la fauna marina que ingiere o queda atrapada en basura.</p>
+                        <h4>👥 Consecuencias para la sociedad</h4>
+                        <p>Disminución de la pesca, riesgos de salud pública para visitantes y afectación drástica a la economía turística.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 5. LIMPIEZA -->
+        <section id="limpieza">
+            <h2>🧹 Participa en limpiezas de playas</h2>
+            <p>
+                Únete al equipo EcoChallenge Playa Limpia y participa en acciones ambientales para recuperar nuestras playas. Para formar parte de una jornada de limpieza solo debes seguir estos pasos:
+            </p>
+
+            <div class="pasos-container">
+                <div class="paso">
+                    <h3>1️⃣</h3>
+                    <p><b>Regístrate como voluntario</b> completando el formulario de abajo.</p>
+                </div>
+                <div class="paso">
+                    <h3>2️⃣</h3>
+                    <p><b>Elige una jornada</b> según tu disponibilidad y horarios.</p>
+                </div>
+                <div class="paso">
+                    <h3>3️⃣</h3>
+                    <p><b>Asiste al punto</b> de encuentro y sigue las medidas de seguridad.</p>
+                </div>
+                <div class="paso">
+                    <h3>4️⃣</h3>
+                    <p><b>Participa</b> recogiendo, separando y recuperando el espacio.</p>
+                </div>
+                <div class="paso">
+                    <h3>5️⃣</h3>
+                    <p><b>Comparte</b> fotos y aprendizajes para motivar a más personas.</p>
+                </div>
+            </div>
+
+            <div class="mensaje-participacion">
+                <h3>🌱 ¡Todos pueden participar!</h3>
+                <p>No necesitas tener experiencia previa. Solo necesitas compromiso, responsabilidad y ganas de ayudar al ambiente. En EcoChallenge creemos que cada persona puede formar parte de la solución.</p>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="#unete" class="btn">Quiero unirme a una limpieza</a>
+            </div>
+        </section>
+
+        <!-- 6. ÚNETE -->
+        <section id="unete" class="unete">
+            <h2>🌱 Únete al cambio</h2>
+            <p style="text-align: center;">
+                Forma parte de EcoChallenge Playa Limpia y participa en acciones que ayudan a proteger nuestras playas y océanos.
+            </p>
+
+            <div class="grid-container" style="margin-bottom: 30px;">
+                <div class="card" style="text-align: center; border-left-color: var(--verde-ecologico);">
+                    <h3>🧹 Jornadas de limpieza</h3>
+                    <p>Recoge residuos en la arena y recupera espacios naturales.</p>
+                </div>
+                <div class="card" style="text-align: center; border-left-color: var(--verde-ecologico);">
+                    <h3>🌊 Retos ambientales</h3>
+                    <p>Completa desafíos para crear hábitos diarios más sostenibles.</p>
+                </div>
+                <div class="card" style="text-align: center; border-left-color: var(--verde-ecologico);">
+                    <h3>📚 Educación ambiental</h3>
+                    <p>Comparte contenido para generar conciencia sobre la basura marina.</p>
+                </div>
+            </div>
+
+
+    <!-- Configuraciones extras para que se vea profesional -->
+    <form action="https://formsubmit.co/ecochallenge.playalimpia@gmail.com" method="POST">
+    
+    <input type="text" name="Nombre Completo" placeholder="Nombre completo" required>
+    <input type="email" name="Correo Electronico" placeholder="Correo electrónico" required>
+    <textarea name="Mensaje o Participacion" placeholder="¿Cómo te gustaría participar? (Ej: voluntario, limpieza, difundir)" required></textarea>
+    
+    <!-- Quitamos la línea de _next y dejamos solo estas dos -->
+    <input type="hidden" name="_subject" value="¡Nuevo voluntario para EcoChallenge!">
+    <input type="hidden" name="_captcha" value="false">
+
+    <button type="submit">Enviar participación</button>
+</form>
+    <input type="hidden" name="_subject" value="¡Nuevo voluntario para EcoChallenge!"> <!-- Asunto del correo -->
+    <input type="hidden" name="_captcha" value="false"> <!-- Desactiva el captcha si prefieres un envío directo -->
+
+
+
+            <div id="contacto" style="text-align: center; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                <h3>📧 Contacto Directo</h3>
+                <p style="font-size: 1.2rem; font-weight: bold; color: var(--azul-mar);">
+                    ecochallenge.playalimpia@gmail.com
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <p>© 2026 EcoChallenge Playa Limpia. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- JavaScript para hacer funcionar el menú interactivo de leyes -->
+    <script>
+        function toggleLegal(button) {
+            // Activa o desactiva la clase "active" del botón para girar la flecha
+            button.classList.toggle("active");
+            
+            // Busca la caja de texto que está justo al lado del botón
+            var texto = button.nextElementSibling;
+            
+            // Si está oculta, la muestra; si está visible, la oculta
+            if (texto.style.display === "block") {
+                texto.style.display = "none";
+            } else {
+                texto.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
